@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
-
-
 import pandas as pd
 import numpy as np
 from bokeh.plotting import figure, show, output_file
@@ -17,7 +14,6 @@ from bokeh.models.widgets import Panel, Tabs
 import yaml
 from bokeh.server.server import Server
 from bokeh.driving import linear
-output_notebook()
 
 pd.set_option('chained_assignment', None)
 pd.options.display.float_format = '{:.4f}'.format
@@ -26,15 +22,8 @@ warnings.filterwarnings('ignore')
 from bokeh.application import Application
 from bokeh.application.handlers.function import FunctionHandler
 
-
-# In[ ]:
-
-
 Terrorist_attacks = pd.read_excel('data/Terrorist attacks.xlsx')
-
-
-# In[ ]:
-
+Human_Development_Index = pd.read_excel('data/HDI.xlsx')
 
 df_Terrorist = pd.DataFrame(Terrorist_attacks.groupby('Year').agg({'City':'size', 'nkill':'sum'}).reset_index())
 year = df_Terrorist['Year']
@@ -59,16 +48,16 @@ def update(step):
     ds1.trigger('data', ds1.data, ds1.data)
     ds2.trigger('data', ds2.data, ds2.data)
     if step == 2017:
-        doc.remove_periodic_callback(update)
+        curdoc().remove_periodic_callback(update)
 
 def animate():
     global callback_id
     if button.label == '► Play':
         button.label = '❚❚ Pause'
-        callback_id = doc.add_periodic_callback(update, 600)
+        callback_id = curdoc().add_periodic_callback(update, 600)
     else:
         button.label = '► Play'
-        doc.remove_periodic_callback(callback_id)
+        curdoc().remove_periodic_callback(callback_id)
 
 #Creating button for play and pause
 button = Button(label='► Play', width=800)
@@ -159,5 +148,5 @@ tab2 = Panel(child=grid1,title="Development of terrorism attacks in the world")
 tabs = Tabs(tabs=[tab2])
 
 #Making the document
-doc.add_root(tabs)
+curdoc().add_root(tabs)
 
