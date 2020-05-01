@@ -22,6 +22,8 @@ warnings.filterwarnings('ignore')
 from bokeh.application import Application
 from bokeh.application.handlers.function import FunctionHandler
 
+!pip install xlrd
+
 Terrorist_attacks = pd.read_excel('data/Terrorist attacks.xlsx')
 Human_Development_Index = pd.read_excel('data/HDI.xlsx')
 
